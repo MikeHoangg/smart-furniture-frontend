@@ -1,0 +1,15 @@
+img {
+  border-radius: 0.5rem;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2.5rem;
+}
+
+carousel {
+  width: 60vw;
+}

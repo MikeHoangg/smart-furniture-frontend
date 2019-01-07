@@ -1,0 +1,125 @@
+<div class="brand-content" *ngIf="status != 404;else notFound">
+  <div class="reviews">
+    <mat-card *ngIf="user_obj;else notAuthorized">
+      <mat-card-header>
+        <div mat-card-avatar class="avatar" *ngIf="user_obj.image"
+             [style.backgroundImage]="'url('+ user_obj.image +')'"></div>
+        <div mat-card-avatar class="avatar" *ngIf="!user_obj.image"
+             [style.backgroundImage]="'url(\'../../assets/img/profile/default-user.png\')'"></div>
+        <mat-card-title>
+          <a routerLink="/user/{{ user_obj.id }}">{{ user_obj.username }}</a>
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{ 'ACTION.REVIEW'|translate }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="reviewForm" (ngSubmit)="submit()" id="reviewForm" class="form-content">
+          <p class="error" *ngIf="error && error.non_field_errors">
+            {{ error.non_field_errors }}
+          </p>
+          <mat-form-field>
+            <mat-select placeholder="{{ 'APP.FURNITURE'|translate }}" formControlName="furniture" required>
+              <mat-option *ngFor="let furniture of furnitureList" [value]="furniture.id">
+                {{ 'TYPE.' + furniture.type|translate }} - {{ furniture.code }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="error && error.furniture">
+              {{ error.furniture }}
+            </mat-error>
+            <mat-error *ngIf="reviewForm.controls['furniture'].invalid">
+              {{ getError("furniture") }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>
+              {{ 'REVIEW.RATING'|translate }}
+            </mat-label>
+            <input matInput type="number" formControlName="rating" required>
+            <mat-error *ngIf="error && error.rating">
+              {{ error.rating }}
+            </mat-error>
+            <mat-error *ngIf="reviewForm.controls['rating'].invalid">
+              {{ getError("rating") }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <textarea matInput placeholder="{{ 'REVIEW.CONTENT'|translate }}" formControlName="content"
+                      required></textarea>
+            <mat-error *ngIf="error && error.content">
+              {{ error.content }}
+            </mat-error>
+            <mat-error *ngIf="reviewForm.controls['content'].invalid">
+              {{ getError("content") }}
+            </mat-error>
+          </mat-form-field>
+        </form>
+        <button mat-flat-button color="primary" type="submit" form="reviewForm">
+          {{ 'ACTION.SUBMIT'|translate }}
+        </button>
+      </mat-card-content>
+    </mat-card>
+    <ng-template #notAuthorized>
+      {{ 'ACTION.NO_COMMENT'|translate }}
+    </ng-template>
+    <mat-card *ngFor="let review of reviews" class="review">
+      <mat-card-header>
+        <div mat-card-avatar class="avatar" *ngIf="review.user.image"
+             [style.backgroundImage]="'url('+ review.user.image +')'"></div>
+        <div mat-card-avatar class="avatar" *ngIf="!review.user.image"
+             [style.backgroundImage]="'url(\'../../assets/img/profile/default-user.png\')'"></div>
+        <mat-card-title>
+          <a routerLink="/user/{{ review.user.id }}">{{ review.user.username }}</a>
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{ 'REVIEW.DATE'|translate }}: {{ getDate(review.date) }} {{ 'REVIEW.AT'|translate }}
+          {{ getTime(review.date) }}
+          <button mat-button *ngIf="isReviewOwner(review.id)" (click)="deleteObject('reviews',review.id)">
+            <mat-icon svgIcon="delete"></mat-icon>
+          </button>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          {{ 'APP.FURNITURE'|translate }}: {{ 'TYPE.' + review.furniture.type|translate }} - {{ review.furniture.code }}
+        </p>
+        <p>
+          {{ 'REVIEW.RATING'|translate }}: {{ review.rating }}★
+        </p>
+        <p>
+          {{ review.content }}
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <mat-card class="brand-card">
+    <mat-card-header>
+      <mat-card-title>
+        <h2><b>{{ title }}</b></h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        <div>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            {{ 'REVIEW.TOTAL_USERS'|translate }}: {{ total_users }}
+          </mat-list-item>
+        </div>
+        <div>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <span *ngIf="rating >= 0;else notRated">{{ 'REVIEW.RATING'|translate }}: {{ rating }}</span>
+            <ng-template #notRated>{{ 'REVIEW.NOT_RATED'|translate }}</ng-template>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </div>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>
+<ng-template #notFound>
+  <div class="brand-content">
+    {{ 'ERROR.BRAND_NOT_FOUND'|translate }}
+  </div>
+</ng-template>

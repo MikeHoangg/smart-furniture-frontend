@@ -1,0 +1,82 @@
+<div class="dialog">
+  <h1 mat-dialog-title>{{ 'ACTION.EDIT'|translate }} {{ user_obj.username }}</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="editProfileForm" (ngSubmit)="save()" id="editProfileForm" class="form-content">
+      <div class="form-content image-form-group">
+        <mat-error *ngIf="error && error.non_field_errors">{{ error.non_field_errors }}</mat-error>
+        <mat-label>
+          {{ 'USER.IMAGE'|translate }}
+        </mat-label>
+        <input type="file" (change)="handleFileInput($event.target.files)">
+        <mat-error *ngIf="error && error.image">
+          {{ error.image }}
+        </mat-error>
+      </div>
+      <mat-form-field>
+        <mat-label>
+          {{ 'USER.USERNAME'|translate }}
+        </mat-label>
+        <input matInput formControlName="username" required>
+        <mat-error *ngIf="error && error.username">
+          {{ error.username }}
+        </mat-error>
+        <mat-error *ngIf="editProfileForm.controls['username'].invalid">
+          {{ getError("username") }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>
+          {{ 'USER.EMAIL'|translate }}
+        </mat-label>
+        <input matInput type="email" formControlName="email" required>
+        <mat-error *ngIf="error && error.email">
+          {{ error.email }}
+        </mat-error>
+        <mat-error *ngIf="editProfileForm.controls['email'].invalid">
+          {{ getError("email") }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>
+          {{ 'USER.FIRST_NAME'|translate }}
+        </mat-label>
+        <input matInput formControlName="first_name">
+        <mat-error *ngIf="error && error.first_name">
+          {{ error.first_name }}
+        </mat-error>
+        <mat-error *ngIf="editProfileForm.controls['first_name'].invalid">
+          {{ getError("first_name") }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>
+          {{ 'USER.LAST_NAME'|translate }}
+        </mat-label>
+        <input matInput formControlName="last_name">
+        <mat-error *ngIf="error && error.last_name">
+          {{ error.last_name }}
+        </mat-error>
+        <mat-error *ngIf="editProfileForm.controls['last_name'].invalid">
+          {{ getError("last_name") }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>
+          {{ 'USER.HEIGHT'|translate }}
+        </mat-label>
+        <input matInput type="number" formControlName="height" required>
+        <mat-error *ngIf="error && error.height">
+          {{ error.height }}
+        </mat-error>
+        <mat-error *ngIf="editProfileForm.controls['height'].invalid">
+          {{ getError("height") }}
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-flat-button color="primary" type="submit" form="editProfileForm">
+      {{ 'ACTION.SAVE'|translate }}
+    </button>
+  </div>
+</div>

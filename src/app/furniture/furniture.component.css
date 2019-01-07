@@ -1,0 +1,7 @@
+@import "../login/login.component.css";
+.check-box-control{
+  padding-bottom: 1rem;
+}
+.check-box-error{
+  font-size: 75%;
+}

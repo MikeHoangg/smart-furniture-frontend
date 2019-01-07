@@ -1,0 +1,40 @@
+.profile-content {
+  display: flex;
+  justify-content: center;
+  margin: 2rem;
+}
+
+.tables-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 60vw;
+}
+
+.avatar {
+  background-size: cover;
+  height: 6rem;
+  width: 6rem;
+}
+
+.profile-card {
+  margin-right: 2rem;
+  align-self: flex-start;
+  min-width: 20vw;
+}
+
+.user-card {
+  margin-right: 2rem;
+  align-self: flex-start;
+}
+
+table {
+  width: 100%
+}
+
+.mat-header-cell {
+  text-align: center;
+}
+
+.mat-cell {
+  text-align: center;
+}

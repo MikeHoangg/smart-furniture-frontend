@@ -1,0 +1,65 @@
+<div class="dialog">
+  <h1 mat-dialog-title>
+    {{ 'APP.REGISTER'|translate }}
+  </h1>
+  <div mat-dialog-content>
+    <form [formGroup]="registerForm" (ngSubmit)="register()" id="registerForm" class="form-content">
+      <p class="error" *ngIf="error && error.non_field_errors">
+        {{ error.non_field_errors }}
+      </p>
+      <mat-form-field>
+        <mat-label>
+          {{ 'USER.USERNAME'|translate }}
+        </mat-label>
+        <input matInput formControlName="username" required>
+        <mat-error *ngIf="error && error.username">
+          {{ error.username }}
+        </mat-error>
+        <mat-error *ngIf="registerForm.controls['username'].invalid">
+          {{ getError("username") }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>
+          {{ 'USER.EMAIL'|translate }}
+        </mat-label>
+        <input matInput type="email" formControlName="email" required>
+        <mat-error *ngIf="error && error.email">
+          {{ error.email }}
+        </mat-error>
+        <mat-error *ngIf="registerForm.controls['email'].invalid">
+          {{ getError("email") }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>
+          {{ 'USER.PASSWORD'|translate }}
+        </mat-label>
+        <input matInput type='password' formControlName="password1" required>
+        <mat-error *ngIf="error && error.password1">
+          {{ error.password1 }}
+        </mat-error>
+        <mat-error *ngIf="registerForm.controls['password1'].invalid">
+          {{ getError("password1") }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>
+          {{ 'USER.CONFIRM'|translate }}
+        </mat-label>
+        <input matInput type='password' formControlName="password2" required>
+        <mat-error *ngIf="error && error.password2">
+          {{ error.password2 }}
+        </mat-error>
+        <mat-error *ngIf="registerForm.controls['password2'].invalid">
+          {{ getError("password2") }}
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-flat-button color="primary" type="submit" form="registerForm">
+      {{ 'APP.REGISTER'|translate }}
+    </button>
+  </div>
+</div>

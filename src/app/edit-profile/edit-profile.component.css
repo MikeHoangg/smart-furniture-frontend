@@ -1,0 +1,6 @@
+@import "../login/login.component.css";
+
+.image-form-group {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}

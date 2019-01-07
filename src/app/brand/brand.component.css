@@ -1,0 +1,30 @@
+.brand-content {
+  display: flex;
+  justify-content: center;
+  margin: 2rem;
+}
+
+.reviews {
+  height: 80vh;
+  overflow: auto;
+  min-width: 40vw;
+}
+.review{
+  margin-top: 0.5rem;
+}
+.brand-card {
+  margin-left: 2rem;
+  align-self: flex-start;
+  min-width: 20vw;
+}
+
+.avatar {
+  background-size: cover;
+  height: 4rem;
+  width: 4rem;
+}
+
+#reviewForm {
+  display: flex;
+  flex-direction: column;
+}

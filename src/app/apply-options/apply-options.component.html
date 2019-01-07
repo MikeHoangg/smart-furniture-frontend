@@ -1,0 +1,106 @@
+<div class="dialog">
+  <h1 mat-dialog-title>{{ 'TYPE.' + furniture_obj.type|translate }} - {{ furniture_obj.code }}</h1>
+  <div mat-dialog-content>
+    <div class="form-content" *ngIf="furniture_obj.current_options.length; else noOptionsApplied">
+      <span><b>{{ 'APP.OPTIONS'|translate }}</b>:</span>
+      <span>
+        {{ 'OPTION.HEIGHT'|translate }}: {{ getAvg('height') }}
+      </span>
+      <span>
+        {{ 'OPTION.LENGTH'|translate }}: {{ getAvg('length') }}
+      </span>
+      <span>
+        {{ 'OPTION.WIDTH'|translate }}: {{ getAvg('width') }}
+      </span>
+      <span>
+        {{ 'OPTION.INCLINE'|translate }}: {{ getAvg('incline') }}
+      </span>
+      <span *ngIf="prime_types.includes(furniture_obj.type)">
+        {{ 'OPTION.TEMPERATURE'|translate }}: {{ getAvg('temperature') }}
+      </span>
+      <span *ngIf="prime_types.includes(furniture_obj.type)">
+        {{ 'OPTION.MASSAGE'|translate }}: {{ 'PRIME_TYPE.' + getAvg('massage')|translate }}
+      </span>
+      <span *ngIf="prime_types.includes(furniture_obj.type)">
+        {{ 'OPTION.RIGIDITY'|translate }}: {{ 'PRIME_TYPE.' + getAvg('rigidity')|translate }}
+      </span>
+    </div>
+    <ng-template #noOptionsApplied>
+      <div class="form-content">
+        <b>{{ 'ACTION.NO_OPTIONS_APPLIED'|translate }}</b>
+      </div>
+    </ng-template>
+    <div class="form-content info-block"
+         *ngIf="isFurnitureOwner() && !furniture_obj.is_public && furniture_obj.allowed_users.length">
+      <span><b>{{ 'FURNITURE.ALLOWED_USERS'|translate }}</b>:</span>
+      <span *ngFor="let user of furniture_obj.allowed_users" class="user">
+        <a routerLink="/user/{{ user.id }}">
+          {{ user.username }}
+        </a>
+        <button mat-button class="action" *ngIf="isFurnitureOwner()" (click)="disallow(user.id)">
+          <mat-icon svgIcon="disallow"></mat-icon>
+          {{ 'ACTION.DISALLOW'|translate }}
+        </button>
+      </span>
+    </div>
+    <div class="form-content info-block" *ngIf="furniture_obj.current_users.length">
+      <span><b>{{ 'FURNITURE.CURRENT_USERS'|translate }}</b>:</span>
+      <span *ngFor="let user of furniture_obj.current_users" class="user">
+        <a routerLink="/user/{{ user.id }}">
+          {{ user.username }}
+        </a>
+        <button mat-button
+                class="action" *ngIf="isFurnitureOwner() && !furniture_obj.is_public && furniture_obj.owner.id!=user.id"
+                (click)="disallow(user.id)">
+          <mat-icon svgIcon="disallow"></mat-icon>
+          {{ 'ACTION.DISALLOW'|translate }}
+        </button>
+      </span>
+    </div>
+    <form [formGroup]="applyOptionsForm" (ngSubmit)="apply()" id="applyOptionsForm"
+          class="form-content info-block" *ngIf="options.length; else noOptions">
+      <p class="error" *ngIf="error && error.non_field_errors">
+        {{ error.non_field_errors }}
+      </p>
+      <mat-form-field>
+        <small *ngIf="curr_opts">
+          {{ 'ACTION.USING'|translate }} {{ curr_opts.name }}
+        </small>
+        <mat-select placeholder="{{ 'APP.OPTIONS'|translate }}" formControlName="options" required>
+          <mat-option *ngFor="let option of options" [value]="option.id">{{ option.name }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="error && error.options">
+          {{ error.options }}
+        </mat-error>
+        <mat-error *ngIf="applyOptionsForm.controls['options'].invalid">
+          {{ getError("options") }}
+        </mat-error>
+      </mat-form-field>
+    </form>
+    <ng-template #noOptions>
+      {{ 'ACTION.NO_OPTIONS'|translate }}
+    </ng-template>
+    <div *ngIf="error && error.detail">
+      {{ error.detail }}
+      <div *ngIf="status === 405">
+        <span>
+          {{ 'ACTION.ASK'|translate }}
+        </span>
+        <button mat-flat-button color="primary" class="control-button" (click)="yes()" *ngIf="options.length">
+          {{ 'ACTION.YES'|translate }}
+        </button>
+        <button mat-flat-button color="primary" class="control-button" (click)="no()" *ngIf="options.length">
+          {{ 'ACTION.NO'|translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-flat-button color="primary" type="submit" form="applyOptionsForm" *ngIf="options.length">
+      {{ 'ACTION.APPLY'|translate }}
+    </button>
+    <button mat-flat-button color="warn" class="control-button" *ngIf="options.length && curr_opts" (click)="discard()">
+      {{ 'ACTION.DISCARD'|translate }}
+    </button>
+  </div>
+</div>

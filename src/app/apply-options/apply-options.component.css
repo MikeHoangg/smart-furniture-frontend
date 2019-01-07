@@ -1,0 +1,18 @@
+@import "../login/login.component.css";
+
+.control-button {
+  margin-left: 1rem;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+}
+
+.action {
+  margin-left: auto;
+}
+
+.info-block {
+  margin-top: 1rem;
+}

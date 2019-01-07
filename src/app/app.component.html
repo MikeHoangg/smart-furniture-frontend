@@ -1,0 +1,27 @@
+<mat-toolbar color="primary">
+  <div class="brand">
+    <span routerLink="/">PFM</span>
+  </div>
+  <button mat-button color="primary" (click)="setLang('uk')" class="nav-item flag">
+    <h5>Укр</h5>
+  </button>
+  <button mat-button color="primary" (click)="setLang('en')" class="nav-item flag">
+    <h5>Eng</h5>
+  </button>
+  <button mat-button color="primary" routerLink="/furniture" class="nav-item">
+    <h5>{{ 'APP.FURNITURE'|translate }}</h5>
+  </button>
+  <button *ngIf="!currentUserId" mat-button color="primary" (click)="openDialog('login')" class="nav-item">
+    <h5>{{ 'APP.LOGIN'|translate }}</h5>
+  </button>
+  <button *ngIf="!currentUserId" mat-button color="primary" (click)="openDialog('register')" class="nav-item">
+    <h5>{{ 'APP.REGISTER'|translate }}</h5>
+  </button>
+  <button *ngIf="currentUserId" mat-button color="primary" class="nav-item" routerLink="/profile">
+    <h5>{{ 'APP.PROFILE'|translate }}</h5>
+  </button>
+  <button *ngIf="currentUserId" mat-button color="primary" (click)="logout()" class="nav-item" routerLink="/">
+    <h5>{{ 'APP.LOGOUT'|translate }}</h5>
+  </button>
+</mat-toolbar>
+<router-outlet></router-outlet>

@@ -1,0 +1,20 @@
+<div class="dialog">
+  <h1 mat-dialog-title>
+    {{ 'ACTION.UPGRADE'|translate }}
+  </h1>
+  <div mat-dialog-content class="form-content">
+    <p class="error" *ngIf="error && error.detail">
+      {{ error.detail }}
+    </p>
+    <stripe-card #stripeCard (catch)="onStripeError($event)" (invalid)="onStripeError($event)"
+                 (tokenChange)="setStripeToken($event)">
+    </stripe-card>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-flat-button color="primary" (click)="stripeCard.createToken()">
+      {{ 'ACTION.PAY'|translate }} ${{ price }}
+    </button>
+  </div>
+</div>
+
+

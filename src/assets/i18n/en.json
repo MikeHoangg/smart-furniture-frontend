@@ -1,0 +1,109 @@
+{
+  "APP": {
+    "FURNITURE": "Furniture",
+    "OPTIONS": "Options",
+    "PFM": "Personal furniture manager",
+    "ABOUT": "About us",
+    "FEATURES": "Features",
+    "LOGIN": "Login",
+    "REGISTER": "Register",
+    "ACTIONS": "Actions",
+    "PROFILE": "Profile",
+    "LOGOUT": "Logout"
+  },
+  "FURNITURE": {
+    "CODE": "Code",
+    "TYPE": "Type",
+    "BRAND": "Brand",
+    "OWNER": "Owner",
+    "IS_PUBLIC": "Is public",
+    "CURRENT_USERS": "Current users",
+    "ALLOWED_USERS": "Allowed users"
+  },
+  "ACTION": {
+    "REVIEW": "Review",
+    "EDIT": "Edit",
+    "ADD": "Add",
+    "SAVE": "Save",
+    "DELETE": "Delete",
+    "ALLOW": "Allow",
+    "DISALLOW": "Disallow",
+    "NOT_AUTHORIZED": "You are not authorized to fo this action",
+    "SENT": "Your request has been sent",
+    "NO_OPTIONS": "You have no options of this type to apply",
+    "NO_OPTIONS_APPLIED": "No options applied",
+    "ASK": "Do you want to ask for permission?",
+    "APPLY": "Apply",
+    "DISCARD": "Discard",
+    "YES": "Yes",
+    "NO": "No",
+    "SUBMIT": "Submit",
+    "USING": "You are already using",
+    "UPGRADE": "Upgrade to prime",
+    "FILTER": "Filter",
+    "PAY": "Pay",
+    "NO_COMMENT": "Please authorize to leave reviews",
+    "NEED_HEIGHT": "You need to add your height before you can create options"
+  },
+  "OPTION": {
+    "NAME": "Name",
+    "HEIGHT": "Height",
+    "LENGTH": "Length",
+    "WIDTH": "Width",
+    "INCLINE": "Incline",
+    "TEMPERATURE": "Temperature",
+    "RIGIDITY": "Rigidity",
+    "MASSAGE": "Massage"
+  },
+  "NOTIFICATION": {
+    "SENDER": "Sender",
+    "CONTENT": "would like to use furniture"
+  },
+  "USER": {
+    "USERNAME": "Username",
+    "EMAIL": "Email",
+    "HEIGHT": "Height",
+    "IMAGE": "Image",
+    "FIRST_NAME": "First name",
+    "LAST_NAME": "Last name",
+    "OWNED_FURNITURE": "Owned furniture",
+    "CURRENT_FURNITURE": "Current furniture",
+    "ALLOWED_FURNITURE": "Allowed furniture",
+    "NOTIFICATIONS": "Notifications",
+    "PASSWORD": "Password",
+    "CONFIRM": "Confirm password",
+    "UNTIL": "until"
+  },
+  "TYPE": {
+    "chair": "Chair",
+    "sofa": "Sofa",
+    "table": "Table",
+    "bed": "Bed",
+    "cupboard": "Cupboard",
+    "desk": "Desk"
+  },
+  "PRIME_TYPE": {
+    "none": "-",
+    "slow": "Slow",
+    "medium": "Medium",
+    "rapid": "Rapid",
+    "soft": "Soft",
+    "solid": "Solid"
+  },
+  "REVIEW": {
+    "DATE": "Date",
+    "AT": "at",
+    "RATING": "Rating",
+    "CONTENT": "Content",
+    "NOT_RATED": "Not rated yet",
+    "TOTAL_USERS": "Total users"
+  },
+  "ERROR": {
+    "REQUIRED": "This field is required",
+    "USER_NOT_FOUND": "User not found",
+    "BRAND_NOT_FOUND": "Brand not found",
+    "MAX_LENGTH": "Max length of this field is ",
+    "MIN": "Min value of this field is ",
+    "MAX": "Max value of this field is "
+  }
+}

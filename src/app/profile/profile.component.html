@@ -1,0 +1,527 @@
+<div class="profile-content" *ngIf="!error && user_obj; else notFound">
+  <mat-card [ngClass]="isOwner()?'profile-card':'user-card'">
+    <mat-card-header>
+      <div mat-card-avatar *ngIf="user_obj.image" class="avatar"
+           [style.backgroundImage]="'url('+ user_obj.image +')'"></div>
+      <div mat-card-avatar *ngIf="!user_obj.image"
+           class="avatar" [style.backgroundImage]="'url(\'../../assets/img/profile/default-user.png\')'"></div>
+      <mat-card-title>
+        {{ user_obj.username }}
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{ user_obj.email }}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        <div>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            {{ 'USER.FIRST_NAME'|translate }}: {{ user_obj.first_name }}
+          </mat-list-item>
+        </div>
+        <div>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            {{ 'USER.LAST_NAME'|translate }}: {{ user_obj.last_name }}
+          </mat-list-item>
+        </div>
+        <div *ngIf="isOwner() && isPrimeAccount()">
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            Prime {{ 'USER.UNTIL'|translate }}: {{ getPrimeDate() }}
+          </mat-list-item>
+        </div>
+        <div>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            {{ 'USER.HEIGHT'|translate }}: {{ user_obj.height }}
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </div>
+
+      </mat-list>
+    </mat-card-content>
+    <mat-card-actions *ngIf="isOwner()">
+      <button mat-button (click)="openDialog('editProfile')">
+        <mat-icon svgIcon="edit"></mat-icon>
+        {{ 'ACTION.EDIT'|translate }}
+      </button>
+      <button mat-button *ngIf="!isPrimeAccount()" (click)="openDialog('upgradePrime')">
+        <mat-icon svgIcon="prime"></mat-icon>
+        {{ 'ACTION.UPGRADE'|translate }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+  <mat-accordion class="tables-content">
+    <mat-expansion-panel *ngIf="isOwner() && notificationsDataSource.filteredData.length">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ 'USER.NOTIFICATIONS'|translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <mat-form-field>
+          <input matInput (keyup)="applyNotificationsFilter($event.target.value)"
+                 placeholder="{{ 'ACTION.FILTER'|translate }} {{ 'USER.NOTIFICATIONS'|translate }}">
+        </mat-form-field>
+        <table mat-table [dataSource]="notificationsDataSource" matSort>
+          <ng-container matColumnDef="sender">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'NOTIFICATION.SENDER'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let notification">
+              <a routerLink="/user/{{ notification.sender.id }}">
+                {{ notification.sender.username }}
+              </a>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'REVIEW.DATE'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let notification">
+              {{ notification.date }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="content">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'REVIEW.CONTENT'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let notification">
+
+              <a routerLink="/user/{{ notification.sender.id }}">
+                {{ notification.sender.username }}
+              </a> {{ 'NOTIFICATION.CONTENT'|translate }} {{ notification.furniture.type }}
+              - {{ notification.furniture.code }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'APP.ACTIONS'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let notification">
+              <button mat-button (click)="allow(notification.furniture.id, notification.sender.id, notification.id)">
+                <mat-icon svgIcon="allow"></mat-icon>
+                {{ 'ACTION.ALLOW'|translate }}
+              </button>
+              <button mat-button (click)="disallow(notification.furniture.id, notification.sender.id, notification.id)">
+                <mat-icon svgIcon="disallow"></mat-icon>
+                {{ 'ACTION.DISALLOW'|translate }}
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="notificationDisplayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: notificationDisplayedColumns;">
+          </tr>
+        </table>
+        <mat-paginator [pageSize]="5"></mat-paginator>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ 'USER.OWNED_FURNITURE'|translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <button mat-button (click)="openDialog('addFurniture')" *ngIf="isOwner()">
+        <mat-icon svgIcon="add"></mat-icon>
+        {{ 'ACTION.ADD'|translate }} {{ 'APP.FURNITURE'|translate }}
+      </button>
+      <div>
+        <mat-form-field>
+          <input matInput (keyup)="applyFurnitureFilter($event.target.value)"
+                 placeholder="{{ 'ACTION.FILTER'|translate }} {{ 'APP.FURNITURE'|translate }}">
+        </mat-form-field>
+        <table mat-table [dataSource]="ownedFurnitureDataSource" matSort>
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'FURNITURE.CODE'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              {{ furniture.code }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="brand">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'FURNITURE.BRAND'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              <a routerLink="/brand/{{ furniture.brand }}">
+                {{ furniture.brand }}
+              </a>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'FURNITURE.TYPE'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              {{ 'TYPE.' + furniture.type|translate }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="is_public">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'FURNITURE.IS_PUBLIC'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              <span *ngIf="furniture.is_public;else no">
+                {{ 'ACTION.YES'|translate }}
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'APP.ACTIONS'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              <button mat-button routerLink="/brand/{{ furniture.brand }}" [queryParams]="{'furniture':furniture.id}">
+                <mat-icon svgIcon="rate"></mat-icon>
+              </button>
+              <span *ngIf="isOwner()">
+                <button mat-button (click)="openDialog('editFurniture', furniture.id)">
+                  <mat-icon svgIcon="edit"></mat-icon>
+                </button>
+                <button mat-button (click)="deleteObject('furniture',furniture.id)">
+                  <mat-icon svgIcon="delete"></mat-icon>
+                </button>
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="settings">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'APP.OPTIONS'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              <button mat-button (click)="openDialog('settings', furniture.id)">
+                <mat-icon svgIcon="settings"></mat-icon>
+              </button>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="ownedFurnitureDisplayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: ownedFurnitureDisplayedColumns;">
+          </tr>
+        </table>
+        <mat-paginator [pageSize]="5"></mat-paginator>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="currentFurnitureDataSource.filteredData.length">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ 'USER.CURRENT_FURNITURE'|translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <mat-form-field>
+          <input matInput (keyup)="applyCurrentFurnitureFilter($event.target.value)"
+                 placeholder="{{ 'ACTION.FILTER'|translate }} {{ 'APP.FURNITURE'|translate }}">
+        </mat-form-field>
+        <table mat-table [dataSource]="currentFurnitureDataSource" matSort>
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'FURNITURE.CODE'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              {{ furniture.code }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="brand">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'FURNITURE.BRAND'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              <a routerLink="/brand/{{ furniture.brand }}">
+                {{ furniture.brand }}
+              </a>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'FURNITURE.TYPE'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              {{ furniture.type }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="owner">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'FURNITURE.OWNER'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              <a routerLink="/user/{{ furniture.owner.id }}">
+                {{ furniture.owner.username }}
+              </a>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="is_public">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'FURNITURE.IS_PUBLIC'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              <span *ngIf="furniture.is_public;else no">
+                {{ 'ACTION.YES'|translate }}
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'APP.ACTIONS'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              <button mat-button routerLink="/brand/{{ furniture.brand }}" [queryParams]="{'furniture':furniture.id}">
+                <mat-icon svgIcon="rate"></mat-icon>
+              </button>
+              <span *ngIf="isFurnitureOwner(furniture.id)">
+                <button mat-button (click)=" openDialog('editFurniture', furniture.id)">
+                  <mat-icon svgIcon="edit"></mat-icon>
+                </button>
+                <button
+                  mat-button (click)="deleteObject('furniture',furniture.id)">
+                  <mat-icon svgIcon="delete"></mat-icon>
+                </button>
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="settings">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'APP.OPTIONS'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              <button mat-button (click)="openDialog('settings', furniture.id)">
+                <mat-icon svgIcon="settings"></mat-icon>
+              </button>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="furnitureDisplayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: furnitureDisplayedColumns;">
+          </tr>
+        </table>
+        <mat-paginator [pageSize]="5"></mat-paginator>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="allowedFurnitureDataSource.filteredData.length">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ 'USER.ALLOWED_FURNITURE'|translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <mat-form-field>
+          <input matInput (keyup)="applyAllowedFurnitureFilter($event.target.value)"
+                 placeholder="{{ 'ACTION.FILTER'|translate }} {{ 'APP.FURNITURE'|translate }}">
+        </mat-form-field>
+        <table mat-table [dataSource]="allowedFurnitureDataSource" matSort>
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'FURNITURE.CODE'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              {{ furniture.code }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="brand">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'FURNITURE.BRAND'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              <a routerLink="/brand/{{ furniture.brand }}">
+                {{ furniture.brand }}
+              </a>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'FURNITURE.TYPE'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              {{ 'TYPE.' + furniture.type|translate }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="owner">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'FURNITURE.OWNER'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              <a routerLink="/user/{{ furniture.owner.id }}">
+                {{ furniture.owner.username }}
+              </a>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="is_public">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'FURNITURE.IS_PUBLIC'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              <span *ngIf="furniture.is_public;else no">
+                {{ 'ACTION.YES'|translate }}
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'APP.ACTIONS'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              <button mat-button routerLink="/brand/{{ furniture.brand }}" [queryParams]="{'furniture':furniture.id}">
+                <mat-icon svgIcon="rate"></mat-icon>
+              </button>
+              <span *ngIf="isFurnitureOwner(furniture.id)">
+                <button mat-button (click)=" openDialog('editFurniture', furniture.id)">
+                  <mat-icon svgIcon="edit"></mat-icon>
+                </button>
+                <button
+                  mat-button (click)="deleteObject('furniture',furniture.id)">
+                  <mat-icon svgIcon="delete"></mat-icon>
+                </button>
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="settings">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'APP.OPTIONS'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let furniture">
+              <button mat-button (click)="openDialog('settings', furniture.id)">
+                <mat-icon svgIcon="settings"></mat-icon>
+              </button>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="furnitureDisplayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: furnitureDisplayedColumns;">
+          </tr>
+        </table>
+        <mat-paginator [pageSize]="5"></mat-paginator>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="isOwner()">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ 'APP.OPTIONS'|translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <button mat-button (click)="openDialog('addOptions')" *ngIf="user_obj.height">
+        <mat-icon svgIcon="add"></mat-icon>
+        {{ 'ACTION.ADD'|translate }} {{ 'APP.OPTIONS'|translate }}
+      </button>
+      <span *ngIf="!user_obj.height">
+        {{ 'ACTION.NEED_HEIGHT'|translate }}
+      </span>
+      <div *ngIf="optionsDataSource.filteredData.length">
+        <mat-form-field>
+          <input matInput (keyup)="applyOptionsFilter($event.target.value)"
+                 placeholder="{{ 'ACTION.FILTER'|translate }} {{ 'APP.OPTIONS'|translate }}">
+        </mat-form-field>
+        <table mat-table [dataSource]="optionsDataSource" matSort>
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'FURNITURE.TYPE'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let options">
+              {{ 'TYPE.' + options.type|translate }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'OPTION.NAME'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let options">
+              {{ options.name }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="height">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'OPTION.HEIGHT'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let options">
+              {{ options.height }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="length">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'OPTION.LENGTH'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let options">
+              {{ options.length }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="width">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'OPTION.WIDTH'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let options">
+              {{ options.width }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="incline">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'OPTION.INCLINE'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let options">
+              {{ options.incline }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="temperature">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'OPTION.TEMPERATURE'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let options">
+              <span *ngIf="prime_types.includes(options.type) && isPrimeAccount(); else none">
+                {{ options.temperature }}
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="massage">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'OPTION.MASSAGE'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let options">
+              <span *ngIf="prime_types.includes(options.type) && isPrimeAccount(); else none">
+                {{ 'PRIME_TYPE.' + options.massage|translate }}
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="rigidity">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'OPTION.RIGIDITY'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let options">
+              <span *ngIf="prime_types.includes(options.type) && isPrimeAccount(); else none">
+                {{ 'PRIME_TYPE.' + options.massage|translate }}
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'APP.ACTIONS'|translate }}
+            </th>
+            <td mat-cell *matCellDef="let options">
+              <div *ngIf="user_obj.height; else none">
+                <button mat-button (click)="openDialog('editOptions', options.id)">
+                  <mat-icon svgIcon="edit"></mat-icon>
+                </button>
+                <button mat-button (click)="deleteObject('options',options.id)">
+                  <mat-icon svgIcon="delete"></mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="optionsDisplayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: optionsDisplayedColumns;">
+          </tr>
+        </table>
+        <mat-paginator [pageSize]="5"></mat-paginator>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+<div *ngIf="error" class="profile-content">
+  <h3>{{ error.detail }}</h3>
+</div>
+<ng-template #no>
+  {{ 'ACTION.NO'|translate }}
+</ng-template>
+<ng-template #none>
+  -
+</ng-template>
+<ng-template #notFound>
+  <div class="profile-content">
+    {{ 'ERROR.USER_NOT_FOUND'|translate }}
+  </div>
+</ng-template>
