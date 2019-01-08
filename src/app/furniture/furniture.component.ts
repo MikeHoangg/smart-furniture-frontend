@@ -2,7 +2,6 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {ApiService} from '../api.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-furniture',
@@ -17,7 +16,6 @@ export class FurnitureComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<FurnitureComponent>,
               private api: ApiService,
-              public translate: TranslateService,
               @Inject(MAT_DIALOG_DATA) private furniture_obj: any) {
     this.furnitureForm = new FormGroup({
       code: new FormControl(furniture_obj ? furniture_obj.code : null, [Validators.required]),
@@ -61,9 +59,7 @@ export class FurnitureComponent implements OnInit {
 
   getError(field) {
     if (this.furnitureForm.controls[field].hasError('required')) {
-      this.translate.get('ERROR.REQUIRED').subscribe((res: string) => {
-        return res;
-      });
+        return 'REQUIRED';
     }
   }
 }

@@ -17,7 +17,7 @@
           {{ error.type }}
         </mat-error>
         <mat-error *ngIf="optionsForm.controls['type'].invalid">
-          {{ getError("type") }}
+          {{ 'ERROR.' + getError("type")|translate }} |translate
         </mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -29,7 +29,7 @@
           {{ error.code }}
         </mat-error>
         <mat-error *ngIf="optionsForm.controls['name'].invalid">
-          {{ getError("name") }}
+          {{ 'ERROR.' + getError("name")|translate }} {{ getParam("name") }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -41,7 +41,7 @@
           {{ error.height }}
         </mat-error>
         <mat-error *ngIf="optionsForm.controls['height'].invalid">
-          {{ getError("height") }}
+          {{ 'ERROR.' + getError("height")|translate }} {{ getParam("height") }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -53,7 +53,7 @@
           {{ error.length }}
         </mat-error>
         <mat-error *ngIf="optionsForm.controls['length'].invalid">
-          {{ getError("length") }}
+          {{ 'ERROR.' + getError("length")|translate }} {{ getParam("length") }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -65,7 +65,7 @@
           {{ error.width }}
         </mat-error>
         <mat-error *ngIf="optionsForm.controls['width'].invalid">
-          {{ getError("width") }}
+          {{ 'ERROR.' + getError("width")|translate }} {{ getParam("width") }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -77,7 +77,7 @@
           {{ error.incline }}
         </mat-error>
         <mat-error *ngIf="optionsForm.controls['incline'].invalid">
-          {{ getError("incline") }}
+          {{ 'ERROR.' + getError("incline")|translate }} {{ getParam("incline") }}
         </mat-error>
       </mat-form-field>
       <mat-form-field *ngIf="isPrimeAccount() && is_prime_type">
@@ -89,7 +89,7 @@
           {{ error.temperature }}
         </mat-error>
         <mat-error *ngIf="optionsForm.controls['temperature'].invalid">
-          {{ getError("temperature") }}
+          {{ 'ERROR.' + getError("temperature")|translate }} {{ getParam("temperature") }}
         </mat-error>
       </mat-form-field>
       <mat-form-field *ngIf="isPrimeAccount() && is_prime_type">
@@ -102,7 +102,7 @@
           {{ error.massage }}
         </mat-error>
         <mat-error *ngIf="optionsForm.controls['massage'].invalid">
-          {{ getError("massage") }}
+          {{ 'ERROR.' + getError("massage")|translate }} {{ getParam("massage") }}
         </mat-error>
       </mat-form-field>
       <mat-form-field *ngIf="isPrimeAccount() && is_prime_type">
@@ -115,7 +115,7 @@
           {{ error.rigidity }}
         </mat-error>
         <mat-error *ngIf="optionsForm.controls['rigidity'].invalid">
-          {{ getError("rigidity") }}
+          {{ 'ERROR.' + getError("rigidity")|translate }} {{ getParam("rigidity") }}
         </mat-error>
       </mat-form-field>
     </form>

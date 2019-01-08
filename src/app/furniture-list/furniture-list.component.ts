@@ -53,7 +53,7 @@ export class FurnitureListComponent implements OnInit {
   }
 
   getFurniture() {
-    this.api.getList('FurnitureDetail').subscribe((response: any) => {
+    this.api.getList('furniture').subscribe((response: any) => {
       if (response) {
         this.furnitureDataSource = new MatTableDataSource(response);
         this.furnitureDataSource.paginator = this.paginator;
@@ -90,14 +90,14 @@ export class FurnitureListComponent implements OnInit {
     } else {
       let dialogRef;
       if (name === 'editFurniture') {
-        this.api.getObj('FurnitureDetail', id).subscribe((response: any) => {
+        this.api.getObj('furniture', id).subscribe((response: any) => {
           if (response) {
             dialogRef = this.dialog.open(FurnitureComponent, {data: response});
             this.closedDialog(dialogRef);
           }
         });
       } else if (name === 'settings') {
-        this.api.getObj('FurnitureDetail', id).subscribe((response: any) => {
+        this.api.getObj('furniture', id).subscribe((response: any) => {
           if (response) {
             dialogRef = this.dialog.open(ApplyOptionsComponent, {data: response});
             this.closedDialog(dialogRef);

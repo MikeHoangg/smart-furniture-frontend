@@ -136,7 +136,7 @@ export class ApiService {
   }
 
   deleteObj(list, id) {
-    return this.httpClient.delete(`${this.apiUrl}/${list}/${id}`, this.getHttpOptions())
+    return this.httpClient.delete(`${this.apiUrl}/${list}/${id}/`, this.getHttpOptions())
       .pipe(catchError(this.handleError()));
   }
 }

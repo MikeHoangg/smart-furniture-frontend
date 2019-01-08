@@ -73,7 +73,7 @@
           {{ error.options }}
         </mat-error>
         <mat-error *ngIf="applyOptionsForm.controls['options'].invalid">
-          {{ getError("options") }}
+          {{ 'ERROR.' + getError("options")|translate }}
         </mat-error>
       </mat-form-field>
     </form>

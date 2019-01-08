@@ -3,7 +3,6 @@ import {ApiService} from '../api.service';
 import {ActivatedRoute} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material';
-import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-brand',
@@ -23,7 +22,6 @@ export class BrandComponent implements OnInit {
 
   constructor(private api: ApiService,
               private route: ActivatedRoute,
-              public translate: TranslateService,
               public snackBar: MatSnackBar) {
     this.title = this.route.snapshot.paramMap.get('brand');
     if (this.api.currentUser) {
@@ -42,21 +40,20 @@ export class BrandComponent implements OnInit {
   }
 
   getError(field) {
-    let s;
-    let param;
     if (this.reviewForm.controls[field].hasError('required')) {
-      s = 'ERROR.REQUIRED';
+      return 'REQUIRED';
     } else if (this.reviewForm.controls[field].hasError('min')) {
-      s = 'ERROR.MIN';
-      param = 1;
+      return 'MIN';
     } else if (this.reviewForm.controls[field].hasError('max')) {
-      s = 'ERROR.MAX';
-      param = 5;
+      return 'MAX';
     }
-    if (s) {
-      this.translate.get(s).subscribe((res: string) => {
-        return param != null ? res + param : res;
-      });
+  }
+
+  getParam(field) {
+    if (this.reviewForm.controls[field].hasError('min')) {
+      return 1;
+    } else if (this.reviewForm.controls[field].hasError('max')) {
+      return 5;
     }
   }
 

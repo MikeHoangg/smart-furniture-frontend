@@ -49,9 +49,7 @@ export class ApplyOptionsComponent implements OnInit {
 
   getError(field) {
     if (this.applyOptionsForm.controls[field].hasError('required')) {
-      this.translate.get('ERROR.REQUIRED').subscribe((res: string) => {
-        return res;
-      });
+      return 'REQUIRED';
     }
   }
 
@@ -107,7 +105,7 @@ export class ApplyOptionsComponent implements OnInit {
 
   apply(): void {
     if (this.applyOptionsForm.valid) {
-      this.api.createObj('apply-Options', this.applyOptionsForm.value).subscribe((response: any) => {
+      this.api.createObj('apply-options', this.applyOptionsForm.value).subscribe((response: any) => {
         if (response) {
           this.no();
           this.dialogRef.close(true);
@@ -124,7 +122,7 @@ export class ApplyOptionsComponent implements OnInit {
 
   discard(): void {
     if (this.discardOptionsForm.valid) {
-      this.api.createObj('discard-Options', this.discardOptionsForm.value).subscribe((response: any) => {
+      this.api.createObj('discard-options', this.discardOptionsForm.value).subscribe((response: any) => {
         if (response) {
           this.error = null;
           this.dialogRef.close(true);

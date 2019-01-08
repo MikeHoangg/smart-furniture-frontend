@@ -102,8 +102,8 @@
     "REQUIRED": "This field is required",
     "USER_NOT_FOUND": "User not found",
     "BRAND_NOT_FOUND": "Brand not found",
-    "MAX_LENGTH": "Max length of this field is ",
-    "MIN": "Min value of this field is ",
-    "MAX": "Max value of this field is "
+    "MAX_LENGTH": "Max length of this field is",
+    "MIN": "Min value of this field is",
+    "MAX": "Max value of this field is"
   }
 }

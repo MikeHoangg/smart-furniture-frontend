@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {ApiService} from '../api.service';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
@@ -17,8 +16,7 @@ export class LoginComponent implements OnInit {
   });
 
   constructor(private dialogRef: MatDialogRef<LoginComponent>,
-              private api: ApiService,
-              public translate: TranslateService) {
+              private api: ApiService) {
   }
 
   ngOnInit() {
@@ -26,9 +24,7 @@ export class LoginComponent implements OnInit {
 
   getError(field) {
     if (this.loginForm.controls[field].hasError('required')) {
-      this.translate.get('ERROR.REQUIRED').subscribe((res: string) => {
-        return res;
-      });
+      return 'REQUIRED';
     }
   }
 

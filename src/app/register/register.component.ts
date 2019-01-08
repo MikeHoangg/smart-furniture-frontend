@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {ApiService} from '../api.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
@@ -19,8 +18,7 @@ export class RegisterComponent implements OnInit {
   error: any;
 
   constructor(private dialogRef: MatDialogRef<RegisterComponent>,
-              private api: ApiService,
-              public translate: TranslateService) {
+              private api: ApiService) {
   }
 
   ngOnInit() {
@@ -28,9 +26,7 @@ export class RegisterComponent implements OnInit {
 
   getError(field) {
     if (this.registerForm.controls[field].hasError('required')) {
-      this.translate.get('ERROR.REQUIRED').subscribe((res: string) => {
-        return res;
-      });
+      return 'REQUIRED';
     }
   }
 

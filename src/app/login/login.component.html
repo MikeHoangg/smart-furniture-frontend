@@ -16,7 +16,7 @@
           {{ error.username }}
         </mat-error>
         <mat-error *ngIf="loginForm.controls['username'].invalid">
-          {{ getError("username") }}
+          {{ 'ERROR.' + getError("username")|translate }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -28,7 +28,7 @@
           {{ error.password }}
         </mat-error>
         <mat-error *ngIf="loginForm.controls['password'].invalid">
-          {{ getError("password") }}
+          {{ 'ERROR.' + getError("password")|translate  }}
         </mat-error>
       </mat-form-field>
     </form>

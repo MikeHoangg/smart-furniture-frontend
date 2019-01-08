@@ -1,4 +1,4 @@
-<div class="brand-content" *ngIf="status != 404;else notFound">
+<div class="brand-content" *ngIf="!error && status != 404;else notFound">
   <div class="reviews">
     <mat-card *ngIf="user_obj;else notAuthorized">
       <mat-card-header>
@@ -28,7 +28,7 @@
               {{ error.furniture }}
             </mat-error>
             <mat-error *ngIf="reviewForm.controls['furniture'].invalid">
-              {{ getError("furniture") }}
+              {{ 'ERROR.' + getError("furniture")|translate }} {{ getParam("furniture") }}
             </mat-error>
           </mat-form-field>
           <mat-form-field>
@@ -40,7 +40,7 @@
               {{ error.rating }}
             </mat-error>
             <mat-error *ngIf="reviewForm.controls['rating'].invalid">
-              {{ getError("rating") }}
+              {{ 'ERROR.' + getError("rating")|translate }} {{ getParam("rating") }}
             </mat-error>
           </mat-form-field>
           <mat-form-field>
@@ -50,7 +50,7 @@
               {{ error.content }}
             </mat-error>
             <mat-error *ngIf="reviewForm.controls['content'].invalid">
-              {{ getError("content") }}
+              {{ 'ERROR.' + getError("content")|translate }} {{ getParam("content") }}
             </mat-error>
           </mat-form-field>
         </form>

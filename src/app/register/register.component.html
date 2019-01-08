@@ -16,7 +16,7 @@
           {{ error.username }}
         </mat-error>
         <mat-error *ngIf="registerForm.controls['username'].invalid">
-          {{ getError("username") }}
+          {{ 'ERROR.' + getError("username")|translate }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -28,7 +28,7 @@
           {{ error.email }}
         </mat-error>
         <mat-error *ngIf="registerForm.controls['email'].invalid">
-          {{ getError("email") }}
+          {{ 'ERROR.' + getError("email")|translate }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -40,7 +40,7 @@
           {{ error.password1 }}
         </mat-error>
         <mat-error *ngIf="registerForm.controls['password1'].invalid">
-          {{ getError("password1") }}
+          {{ 'ERROR.' + getError("password1")|translate }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -52,7 +52,7 @@
           {{ error.password2 }}
         </mat-error>
         <mat-error *ngIf="registerForm.controls['password2'].invalid">
-          {{ getError("password2") }}
+          {{ 'ERROR.' + getError("password2")|translate }}
         </mat-error>
       </mat-form-field>
     </form>

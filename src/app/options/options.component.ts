@@ -2,8 +2,6 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {ApiService} from '../api.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {TranslateService} from '@ngx-translate/core';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 @Component({
   selector: 'app-options',
@@ -22,7 +20,6 @@ export class OptionsComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<OptionsComponent>,
               private api: ApiService,
-              public translate: TranslateService,
               @Inject(MAT_DIALOG_DATA) private option_obj: any) {
     this.title = option_obj ? 'EDIT' : 'ADD';
 
@@ -58,24 +55,24 @@ export class OptionsComponent implements OnInit {
   }
 
   getError(field) {
-    let s;
-    let param;
     if (this.optionsForm.controls[field].hasError('required')) {
-      s = 'ERROR.REQUIRED';
+      return 'REQUIRED';
     } else if (this.optionsForm.controls[field].hasError('maxLength')) {
-      s = 'ERROR.MAX_LENGTH';
-      param = 32;
+      return 'MAX_LENGTH';
     } else if (this.optionsForm.controls[field].hasError('min')) {
-      s = 'ERROR.MIN';
-      param = 0;
+      return 'MIN';
     } else if (this.optionsForm.controls[field].hasError('max')) {
-      s = 'ERROR.MAX';
-      param = 180;
+      return 'MAX';
     }
-    if (s) {
-      this.translate.get(s).subscribe((res: string) => {
-        return param != null ? res + param : res;
-      });
+  }
+
+  getParam(field) {
+    if (this.optionsForm.controls[field].hasError('maxLength')) {
+      return 32;
+    } else if (this.optionsForm.controls[field].hasError('min')) {
+      return 0;
+    } else if (this.optionsForm.controls[field].hasError('max')) {
+      return 180;
     }
   }
 

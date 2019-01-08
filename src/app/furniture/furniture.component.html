@@ -17,7 +17,7 @@
           {{ error.code }}
         </mat-error>
         <mat-error *ngIf="furnitureForm.controls['code'].invalid">
-          {{ getError("code") }}
+          {{ 'ERROR.' + getError("code")|translate }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -29,7 +29,7 @@
           {{ error.brand }}
         </mat-error>
         <mat-error *ngIf="furnitureForm.controls['brand'].invalid">
-          {{ getError("brand") }}
+          {{ 'ERROR.' + getError("brand")|translate }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -42,7 +42,7 @@
           {{ error.type }}
         </mat-error>
         <mat-error *ngIf="furnitureForm.controls['type'].invalid">
-          {{ getError("type") }}
+          {{ 'ERROR.' + getError("type")|translate }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -53,7 +53,7 @@
           {{ error.is_public }}
         </mat-error>
         <mat-error *ngIf="furnitureForm.controls['is_public'].invalid">
-          {{ getError("is_public") }}
+          {{ 'ERROR.' + getError("is_public")|translate }}
         </mat-error>
       </mat-form-field>
     </form>

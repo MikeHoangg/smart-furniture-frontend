@@ -21,7 +21,7 @@
           {{ error.username }}
         </mat-error>
         <mat-error *ngIf="editProfileForm.controls['username'].invalid">
-          {{ getError("username") }}
+          {{ 'ERROR.' + getError("username")|translate }} {{ getParam("username") }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -33,7 +33,7 @@
           {{ error.email }}
         </mat-error>
         <mat-error *ngIf="editProfileForm.controls['email'].invalid">
-          {{ getError("email") }}
+          {{ 'ERROR.' + getError("email")|translate }} {{ getParam("email") }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -45,7 +45,7 @@
           {{ error.first_name }}
         </mat-error>
         <mat-error *ngIf="editProfileForm.controls['first_name'].invalid">
-          {{ getError("first_name") }}
+          {{ 'ERROR.' + getError("first_name")|translate }} {{ getParam("first_name") }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -57,7 +57,7 @@
           {{ error.last_name }}
         </mat-error>
         <mat-error *ngIf="editProfileForm.controls['last_name'].invalid">
-          {{ getError("last_name") }}
+          {{ 'ERROR.' + getError("last_name")|translate }} {{ getParam("last_name") }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -69,7 +69,7 @@
           {{ error.height }}
         </mat-error>
         <mat-error *ngIf="editProfileForm.controls['height'].invalid">
-          {{ getError("height") }}
+          {{ 'ERROR.' + getError("height")|translate }} {{ getParam("height") }}
         </mat-error>
       </mat-form-field>
     </form>

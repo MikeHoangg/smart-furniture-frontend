@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ApiService} from '../api.service';
 import {MatDialogRef} from '@angular/material';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit-profile',
@@ -16,7 +15,6 @@ export class EditProfileComponent implements OnInit {
   editProfileForm: FormGroup;
 
   constructor(private api: ApiService,
-              public translate: TranslateService,
               private dialogRef: MatDialogRef<EditProfileComponent>) {
     this.user_obj = this.api.currentUser;
     this.editProfileForm = new FormGroup({
@@ -50,18 +48,16 @@ export class EditProfileComponent implements OnInit {
   }
 
   getError(field) {
-    let s;
-    let param;
     if (this.editProfileForm.controls[field].hasError('required')) {
-      s = 'ERROR.REQUIRED';
+      return 'REQUIRED';
     } else if (this.editProfileForm.controls[field].hasError('min')) {
-      s = 'ERROR.MIN';
-      param = 0;
+      return 'MIN';
     }
-    if (s) {
-      this.translate.get(s).subscribe((res: string) => {
-        return param != null ? res + param : res;
-      });
+  }
+
+  getParam(field) {
+    if (this.editProfileForm.controls[field].hasError('min')) {
+      return 0;
     }
   }
 
