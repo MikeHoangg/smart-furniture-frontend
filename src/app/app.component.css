@@ -1,14 +1,14 @@
-.brand {
+.logo {
   flex: 1 1 auto;
   font-size: 1.5rem;
   color: #FFFFFF;
 }
 
-.brand span:hover {
+.logo span:hover {
   cursor: pointer;
 }
 
-.brand span {
+.logo span {
   font-weight: 700;
 }
 
@@ -19,10 +19,10 @@
 
 .error {
   color: #f44336;
-  font-size: 16px;
+  font-size: 12px;
 }
 
-.form-content {
+.column {
   display: flex;
   flex-direction: column;
 }

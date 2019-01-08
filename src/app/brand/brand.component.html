@@ -1,4 +1,4 @@
-<div class="brand-content" *ngIf="!error && status != 404;else notFound">
+<div class="brand-content" *ngIf="!error && status != 404; else notFound">
   <div class="reviews">
     <mat-card *ngIf="user_obj;else notAuthorized">
       <mat-card-header>
@@ -14,41 +14,41 @@
         </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <form [formGroup]="reviewForm" (ngSubmit)="submit()" id="reviewForm" class="form-content">
+        <form [formGroup]="reviewForm" (ngSubmit)="submit()" id="reviewForm" class="column">
           <p class="error" *ngIf="error && error.non_field_errors">
             {{ error.non_field_errors }}
           </p>
           <mat-form-field>
+            <p class="error" *ngIf="error && error.furniture">
+              {{ error.furniture }}
+            </p>
             <mat-select placeholder="{{ 'APP.FURNITURE'|translate }}" formControlName="furniture" required>
               <mat-option *ngFor="let furniture of furnitureList" [value]="furniture.id">
                 {{ 'TYPE.' + furniture.type|translate }} - {{ furniture.code }}
               </mat-option>
             </mat-select>
-            <mat-error *ngIf="error && error.furniture">
-              {{ error.furniture }}
-            </mat-error>
             <mat-error *ngIf="reviewForm.controls['furniture'].invalid">
               {{ 'ERROR.' + getError("furniture")|translate }} {{ getParam("furniture") }}
             </mat-error>
           </mat-form-field>
           <mat-form-field>
+            <p class="error" *ngIf="error && error.rating">
+              {{ error.rating }}
+            </p>
             <mat-label>
               {{ 'REVIEW.RATING'|translate }}
             </mat-label>
             <input matInput type="number" formControlName="rating" required>
-            <mat-error *ngIf="error && error.rating">
-              {{ error.rating }}
-            </mat-error>
             <mat-error *ngIf="reviewForm.controls['rating'].invalid">
               {{ 'ERROR.' + getError("rating")|translate }} {{ getParam("rating") }}
             </mat-error>
           </mat-form-field>
           <mat-form-field>
+            <p class="error" *ngIf="error && error.content">
+              {{ error.content }}
+            </p>
             <textarea matInput placeholder="{{ 'REVIEW.CONTENT'|translate }}" formControlName="content"
                       required></textarea>
-            <mat-error *ngIf="error && error.content">
-              {{ error.content }}
-            </mat-error>
             <mat-error *ngIf="reviewForm.controls['content'].invalid">
               {{ 'ERROR.' + getError("content")|translate }} {{ getParam("content") }}
             </mat-error>
@@ -72,8 +72,8 @@
           <a routerLink="/user/{{ review.user.id }}">{{ review.user.username }}</a>
         </mat-card-title>
         <mat-card-subtitle>
-          {{ 'REVIEW.DATE'|translate }}: {{ getDate(review.date) }} {{ 'REVIEW.AT'|translate }}
-          {{ getTime(review.date) }}
+          {{ 'REVIEW.DATE'|translate }}
+          : {{ getDate(review.date) }} {{ 'REVIEW.AT'|translate }} {{ getTime(review.date) }}
           <button mat-button *ngIf="isReviewOwner(review.id)" (click)="deleteObject('reviews',review.id)">
             <mat-icon svgIcon="delete"></mat-icon>
           </button>
@@ -95,7 +95,11 @@
   <mat-card class="brand-card">
     <mat-card-header>
       <mat-card-title>
-        <h2><b>{{ title }}</b></h2>
+        <h2>
+          <b>
+            {{ title }}
+          </b>
+        </h2>
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
@@ -109,8 +113,12 @@
         <div>
           <mat-divider></mat-divider>
           <mat-list-item>
-            <span *ngIf="rating >= 0;else notRated">{{ 'REVIEW.RATING'|translate }}: {{ rating }}</span>
-            <ng-template #notRated>{{ 'REVIEW.NOT_RATED'|translate }}</ng-template>
+            <span *ngIf="rating >= 0;else notRated">
+              {{ 'REVIEW.RATING'|translate }}: {{ rating }}
+            </span>
+            <ng-template #notRated>
+              {{ 'REVIEW.NOT_RATED'|translate }}
+            </ng-template>
           </mat-list-item>
           <mat-divider></mat-divider>
         </div>

@@ -4,53 +4,53 @@
   furniture_obj.type|translate }} - {{ furniture_obj.code }}</span>
   </h1>
   <div mat-dialog-content>
-    <form [formGroup]="furnitureForm" (ngSubmit)="save()" id="furnitureForm" class="form-content">
+    <form [formGroup]="furnitureForm" (ngSubmit)="save()" id="furnitureForm" class="column">
       <p class="error" *ngIf="error && error.non_field_errors">
         {{ error.non_field_errors }}
       </p>
       <mat-form-field>
+        <p class="error" *ngIf="error && error.code">
+          {{ error.code }}
+        </p>
         <mat-label>
           {{ 'FURNITURE.CODE'|translate }}
         </mat-label>
         <input matInput formControlName="code" required>
-        <mat-error *ngIf="error && error.code">
-          {{ error.code }}
-        </mat-error>
         <mat-error *ngIf="furnitureForm.controls['code'].invalid">
           {{ 'ERROR.' + getError("code")|translate }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
+        <p class="error" *ngIf="error && error.brand">
+          {{ error.brand }}
+        </p>
         <mat-label>
           {{ 'FURNITURE.BRAND'|translate }}
         </mat-label>
         <input matInput formControlName="brand" required>
-        <mat-error *ngIf="error && error.brand">
-          {{ error.brand }}
-        </mat-error>
         <mat-error *ngIf="furnitureForm.controls['brand'].invalid">
           {{ 'ERROR.' + getError("brand")|translate }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
+        <p class="error" *ngIf="error && error.type">
+          {{ error.type }}
+        </p>
         <mat-select placeholder="{{ 'FURNITURE.TYPE'|translate }}" formControlName="type" required>
           <mat-option *ngFor="let type of types" [value]="type.name">
             {{ 'TYPE.' + type.name|translate }}
           </mat-option>
         </mat-select>
-        <mat-error *ngIf="error && error.type">
-          {{ error.type }}
-        </mat-error>
         <mat-error *ngIf="furnitureForm.controls['type'].invalid">
           {{ 'ERROR.' + getError("type")|translate }}
         </mat-error>
       </mat-form-field>
+      <p class="error" *ngIf="error && error.is_public">
+        {{ error.is_public }}
+      </p>
       <mat-checkbox formControlName="is_public" color="primary">
         {{ 'FURNITURE.IS_PUBLIC'|translate }}
       </mat-checkbox>
-      <mat-error class="check-box-error" *ngIf="error && error.is_public">
-        {{ error.is_public }}
-      </mat-error>
       <mat-error *ngIf="furnitureForm.controls['is_public'].invalid">
         {{ 'ERROR.' + getError("is_public")|translate }}
       </mat-error>

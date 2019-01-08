@@ -1,7 +1,7 @@
 <div class="dialog">
   <h1 mat-dialog-title>{{ 'TYPE.' + furniture_obj.type|translate }} - {{ furniture_obj.code }}</h1>
   <div mat-dialog-content>
-    <div class="form-content" *ngIf="furniture_obj.current_options.length; else noOptionsApplied">
+    <div class="column" *ngIf="furniture_obj.current_options.length; else noOptionsApplied">
       <span><b>{{ 'APP.OPTIONS'|translate }}</b>:</span>
       <span>
         {{ 'OPTION.HEIGHT'|translate }}: {{ getAvg('height') }}
@@ -26,11 +26,11 @@
       </span>
     </div>
     <ng-template #noOptionsApplied>
-      <div class="form-content">
+      <div class="column">
         <b>{{ 'ACTION.NO_OPTIONS_APPLIED'|translate }}</b>
       </div>
     </ng-template>
-    <div class="form-content info-block"
+    <div class="column info-block"
          *ngIf="isFurnitureOwner() && !furniture_obj.is_public && furniture_obj.allowed_users.length">
       <span><b>{{ 'FURNITURE.ALLOWED_USERS'|translate }}</b>:</span>
       <span *ngFor="let user of furniture_obj.allowed_users" class="user">
@@ -43,7 +43,7 @@
         </button>
       </span>
     </div>
-    <div class="form-content info-block" *ngIf="furniture_obj.current_users.length">
+    <div class="column info-block" *ngIf="furniture_obj.current_users.length">
       <span><b>{{ 'FURNITURE.CURRENT_USERS'|translate }}</b>:</span>
       <span *ngFor="let user of furniture_obj.current_users" class="user">
         <a routerLink="/user/{{ user.id }}">
@@ -58,7 +58,7 @@
       </span>
     </div>
     <form [formGroup]="applyOptionsForm" (ngSubmit)="apply()" id="applyOptionsForm"
-          class="form-content info-block" *ngIf="options.length; else noOptions">
+          class="column info-block" *ngIf="options.length; else noOptions">
       <p class="error" *ngIf="error && error.non_field_errors">
         {{ error.non_field_errors }}
       </p>
@@ -66,12 +66,12 @@
         <small *ngIf="curr_opts">
           {{ 'ACTION.USING'|translate }} {{ curr_opts.name }}
         </small>
+        <p class="error" *ngIf="error && error.options">
+          {{ error.options }}
+        </p>
         <mat-select placeholder="{{ 'APP.OPTIONS'|translate }}" formControlName="options" required>
           <mat-option *ngFor="let option of options" [value]="option.id">{{ option.name }}</mat-option>
         </mat-select>
-        <mat-error *ngIf="error && error.options">
-          {{ error.options }}
-        </mat-error>
         <mat-error *ngIf="applyOptionsForm.controls['options'].invalid">
           {{ 'ERROR.' + getError("options")|translate }}
         </mat-error>
@@ -81,7 +81,9 @@
       {{ 'ACTION.NO_OPTIONS'|translate }}
     </ng-template>
     <div *ngIf="error && error.detail">
-      {{ error.detail }}
+      <p class="error">
+        {{ error.detail }}
+      </p>
       <div *ngIf="status === 405">
         <span>
           {{ 'ACTION.ASK'|translate }}

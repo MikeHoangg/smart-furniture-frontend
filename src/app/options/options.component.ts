@@ -20,7 +20,7 @@ export class OptionsComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<OptionsComponent>,
               private api: ApiService,
-              @Inject(MAT_DIALOG_DATA) private option_obj: any) {
+              @Inject(MAT_DIALOG_DATA) public option_obj: any) {
     this.title = option_obj ? 'EDIT' : 'ADD';
 
     this.optionsForm = new FormGroup({

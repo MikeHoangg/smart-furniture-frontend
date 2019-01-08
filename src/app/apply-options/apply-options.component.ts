@@ -20,7 +20,7 @@ export class ApplyOptionsComponent implements OnInit {
   prime_types: any[] = [];
 
 
-  constructor(@Inject(MAT_DIALOG_DATA) private furniture_obj: any,
+  constructor(@Inject(MAT_DIALOG_DATA) public furniture_obj: any,
               private dialogRef: MatDialogRef<ApplyOptionsComponent>,
               private api: ApiService,
               public snackBar: MatSnackBar,

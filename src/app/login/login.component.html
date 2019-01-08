@@ -3,30 +3,30 @@
     {{ 'APP.LOGIN'|translate }}
   </h1>
   <div mat-dialog-content>
-    <form [formGroup]="loginForm" (ngSubmit)="login()" id="loginForm" class="form-content">
+    <form [formGroup]="loginForm" (ngSubmit)="login()" id="loginForm" class="column">
       <p class="error" *ngIf="error && error.non_field_errors">
         {{ error.non_field_errors }}
       </p>
       <mat-form-field>
+        <p class="error" *ngIf="error && error.username">
+          {{ error.username }}
+        </p>
         <mat-label>
           {{ 'USER.USERNAME'|translate }}
         </mat-label>
         <input matInput formControlName="username" required>
-        <mat-error *ngIf="error && error.username">
-          {{ error.username }}
-        </mat-error>
         <mat-error *ngIf="loginForm.controls['username'].invalid">
           {{ 'ERROR.' + getError("username")|translate }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
+        <p class="error" *ngIf="error && error.password">
+          {{ error.password }}
+        </p>
         <mat-label>
           {{ 'USER.PASSWORD'|translate }}
         </mat-label>
         <input matInput type='password' formControlName="password" required>
-        <mat-error *ngIf="error && error.password">
-          {{ error.password }}
-        </mat-error>
         <mat-error *ngIf="loginForm.controls['password'].invalid">
           {{ 'ERROR.' + getError("password")|translate  }}
         </mat-error>

@@ -16,7 +16,7 @@ export class FurnitureComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<FurnitureComponent>,
               private api: ApiService,
-              @Inject(MAT_DIALOG_DATA) private furniture_obj: any) {
+              @Inject(MAT_DIALOG_DATA) public furniture_obj: any) {
     this.furnitureForm = new FormGroup({
       code: new FormControl(furniture_obj ? furniture_obj.code : null, [Validators.required]),
       brand: new FormControl(furniture_obj ? furniture_obj.brand : null, [Validators.required]),
@@ -59,7 +59,7 @@ export class FurnitureComponent implements OnInit {
 
   getError(field) {
     if (this.furnitureForm.controls[field].hasError('required')) {
-        return 'REQUIRED';
+      return 'REQUIRED';
     }
   }
 }

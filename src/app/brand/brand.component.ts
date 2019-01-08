@@ -110,7 +110,7 @@ export class BrandComponent implements OnInit {
             }
           }
           this.route.queryParams.subscribe(params => {
-            const furniture = parseInt(params['furniture']);
+            const furniture = parseInt(params['furniture'], 10);
             if (this.user_obj) {
               this.reviewForm = new FormGroup({
                 furniture: new FormControl(furniture && this.isInFurnitureList(furniture) ? furniture : null, [Validators.required]),

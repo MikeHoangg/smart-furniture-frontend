@@ -31,7 +31,7 @@ export class EditProfileComponent implements OnInit {
 
   save(): void {
     const formData = new FormData();
-    for (const key in this.editProfileForm.value) {
+    for (const key of Object.keys(this.editProfileForm.value)) {
       formData.append(key, this.editProfileForm.value[key]);
     }
     if (this.fileToUpload) {
