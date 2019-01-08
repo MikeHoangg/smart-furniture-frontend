@@ -261,7 +261,7 @@ export class ProfileComponent implements OnInit {
           }
         });
       } else if (name === 'editOptions') {
-        this.api.getObj('Options', id).subscribe((response: any) => {
+        this.api.getObj('options', id).subscribe((response: any) => {
           if (response) {
             dialogRef = this.dialog.open(OptionsComponent, {data: response});
             this.closedDialog(dialogRef);

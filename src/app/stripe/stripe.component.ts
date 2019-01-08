@@ -10,7 +10,6 @@ import {MatDialogRef, MatSnackBar} from '@angular/material';
 })
 export class StripeComponent implements OnInit {
   error: any;
-  price: 3.99;
 
   constructor(private api: ApiService, public snackBar: MatSnackBar,
               private dialogRef: MatDialogRef<StripeComponent>) {
@@ -19,11 +18,15 @@ export class StripeComponent implements OnInit {
   ngOnInit() {
   }
 
+  getPrice() {
+    return 3.99;
+  }
+
   setStripeToken(token: StripeToken) {
     this.api.createObj('set-prime', {
       'user': this.api.currentUser.id,
       'stripe_token': token.id,
-      'price': this.price * 100
+      'price': this.getPrice() * 100
     }).subscribe((response: any) => {
       if (response) {
         this.dialogRef.close(true);

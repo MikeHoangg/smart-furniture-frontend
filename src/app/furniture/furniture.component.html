@@ -45,17 +45,15 @@
           {{ 'ERROR.' + getError("type")|translate }}
         </mat-error>
       </mat-form-field>
-      <mat-form-field>
-        <mat-checkbox formControlName="is_public" color="primary">
-          {{ 'FURNITURE.IS_PUBLIC'|translate }}
-        </mat-checkbox>
-        <mat-error class="check-box-error" *ngIf="error && error.is_public">
-          {{ error.is_public }}
-        </mat-error>
-        <mat-error *ngIf="furnitureForm.controls['is_public'].invalid">
-          {{ 'ERROR.' + getError("is_public")|translate }}
-        </mat-error>
-      </mat-form-field>
+      <mat-checkbox formControlName="is_public" color="primary">
+        {{ 'FURNITURE.IS_PUBLIC'|translate }}
+      </mat-checkbox>
+      <mat-error class="check-box-error" *ngIf="error && error.is_public">
+        {{ error.is_public }}
+      </mat-error>
+      <mat-error *ngIf="furnitureForm.controls['is_public'].invalid">
+        {{ 'ERROR.' + getError("is_public")|translate }}
+      </mat-error>
     </form>
   </div>
   <div mat-dialog-actions>

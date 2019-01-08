@@ -12,7 +12,7 @@
   </div>
   <div mat-dialog-actions>
     <button mat-flat-button color="primary" (click)="stripeCard.createToken()">
-      {{ 'ACTION.PAY'|translate }} ${{ price }}
+      {{ 'ACTION.PAY'|translate }} $ {{ getPrice() }}
     </button>
   </div>
 </div>
